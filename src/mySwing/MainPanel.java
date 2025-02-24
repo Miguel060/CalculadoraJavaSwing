@@ -49,13 +49,13 @@ public class MainPanel extends JFrame {
         return regex.replaceAll("[\\[\\],\\s]", "");
     }
 
-    public static void funcClear(List<String> l1, List<String> l2, JLabel lb1, JLabel lb2, JLabel lb3,JLabel lb4) {
-            l1.clear();
-            l2.clear();
-            lb1.setText("");
-            lb2.setText("");
-            lb3.setText("");
-            lb4.setText("");
+    public static void funcClear(List<String> l1, List<String> l2, JLabel lb1, JLabel lb2, JLabel lb3, JLabel lb4) {
+        l1.clear();
+        l2.clear();
+        lb1.setText("");
+        lb2.setText("");
+        lb3.setText("");
+        lb4.setText("");
     }
 
 
@@ -68,9 +68,9 @@ public class MainPanel extends JFrame {
         lbResultado.setText(String.valueOf(resultado));
     }
 
-    public void botoes(JButton btn){
+    public void botoes(JButton btn) {
         if (operacao == null) {
-            if(verificacao){
+            if (verificacao) {
                 verificacao = false;
                 funcClear(listaNums1, listaNums2, lbEspaco1, lbEspaco2, lbOperacao, lbResultado);
                 operacao = null;
@@ -85,6 +85,18 @@ public class MainPanel extends JFrame {
             lbEspaco2.setText(regexString);
         }
     }
+    public void botaoOperacao(JButton btn) {
+        if (resultado == null && !lbEspaco1.getText().isEmpty()) {
+            operacao = btn.getText();
+            lbOperacao.setText(operacao);
+        } else if(resultado != null){
+            operacao = btn.getText();
+            lbResultado.setText("");
+            lbEspaco1.setText(regexString);
+            lbOperacao.setText(operacao);
+        }
+    }
+
     public MainPanel() {
 
         setSize(530, 600);
@@ -139,13 +151,13 @@ public class MainPanel extends JFrame {
         btn5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              botoes(btn5);
+                botoes(btn5);
             }
         });
         btn6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               botoes(btn6);
+                botoes(btn6);
             }
         });
         btn8.addActionListener(new ActionListener() {
@@ -163,7 +175,7 @@ public class MainPanel extends JFrame {
         btn9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              botoes(btn9);
+                botoes(btn9);
             }
         });
 
@@ -223,7 +235,7 @@ public class MainPanel extends JFrame {
                     }
                 } catch (NullPointerException ex) {
                     throw new ExMainPanel(ex.getMessage());
-                }finally {
+                } finally {
                     System.out.println("----------------- testes igual");
                     System.out.println("Operacao: " + operacao);
                     System.out.println("Resultado: " + resultado);
@@ -238,15 +250,7 @@ public class MainPanel extends JFrame {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (resultado == null) {
-                    operacao = "+";
-                    lbOperacao.setText(operacao);
-                } else {
-                    operacao = "+";
-                    lbResultado.setText("");
-                    lbEspaco1.setText(regexString);
-                    lbOperacao.setText(operacao);
-                }
+                botaoOperacao(btnAdd);
             }
         });
 
@@ -254,7 +258,7 @@ public class MainPanel extends JFrame {
         cButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                funcClear(listaNums1, listaNums2, lbEspaco1, lbEspaco2, lbOperacao,lbResultado);
+                funcClear(listaNums1, listaNums2, lbEspaco1, lbEspaco2, lbOperacao, lbResultado);
                 operacao = null;
                 resultado = null;
             }
@@ -263,15 +267,7 @@ public class MainPanel extends JFrame {
         btnSub.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (resultado == null) {
-                    operacao = "-";
-                    lbOperacao.setText(operacao);
-                } else {
-                    operacao = "-";
-                    lbResultado.setText("");
-                    lbEspaco1.setText(regexString);
-                    lbOperacao.setText(operacao);
-                }
+                botaoOperacao(btnSub);
             }
         });
 
@@ -279,30 +275,14 @@ public class MainPanel extends JFrame {
         btnMult.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (resultado == null) {
-                    operacao = "*";
-                    lbOperacao.setText(operacao);
-                } else {
-                    operacao = "*";
-                    lbResultado.setText("");
-                    lbEspaco1.setText(regexString);
-                    lbOperacao.setText(operacao);
-                }
+                botaoOperacao(btnMult);
             }
         });
 
         btnDiv.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (resultado == null) {
-                    operacao = "/";
-                    lbOperacao.setText(operacao);
-                } else {
-                    operacao = "/";
-                    lbResultado.setText("");
-                    lbEspaco1.setText(regexString);
-                    lbOperacao.setText(operacao);
-                }
+                botaoOperacao(btnDiv);
             }
         });
 
@@ -310,15 +290,7 @@ public class MainPanel extends JFrame {
         btnPorcentage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(resultado == null){
-                    operacao = "+";
-                    lbOperacao.setText("+");
-                }else{
-                    operacao = "+";
-                    lbResultado.setText("");
-                    lbEspaco1.setText(regexString);
-                    lbOperacao.setText("+");
-                }
+                botaoOperacao(btnPorcentage);
             }
         });
     }
