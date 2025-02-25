@@ -15,7 +15,7 @@ public class MainPanel extends JFrame {
     private JPanel pnSouth;
     private JPanel pnCenter;
     private JButton btn0;
-    private JButton btnPointer;
+    private JButton btnPi;
     private JButton btnPorcentage;
     private JButton btnAdd;
     private JButton btn1;
@@ -36,6 +36,8 @@ public class MainPanel extends JFrame {
     private JLabel lbEspaco2;
     private JLabel lbResultado;
     private JButton cButton;
+    private JButton btnSeta;
+    private JButton btnPoint;
 
     List<String> listaNums1 = new LinkedList<>();
     List<String> listaNums2 = new LinkedList<>();
@@ -85,11 +87,29 @@ public class MainPanel extends JFrame {
             lbEspaco2.setText(regexString);
         }
     }
+
+    public void addPi(String pi){
+        if (operacao == null) {
+            if (verificacao) {
+                verificacao = false;
+                funcClear(listaNums1, listaNums2, lbEspaco1, lbEspaco2, lbOperacao, lbResultado);
+                operacao = null;
+                resultado = null;
+            }
+            listaNums1.add(pi);
+            regexString = sRegex(listaNums1.toString());
+            lbEspaco1.setText(regexString);
+        } else {
+            listaNums2.add(pi);
+            regexString = sRegex(listaNums2.toString());
+            lbEspaco2.setText(regexString);
+        }
+    }
     public void botaoOperacao(JButton btn) {
         if (resultado == null && !lbEspaco1.getText().isEmpty()) {
             operacao = btn.getText();
             lbOperacao.setText(operacao);
-        } else if(resultado != null){
+        } else if(resultado != null) {
             operacao = btn.getText();
             lbResultado.setText("");
             lbEspaco1.setText(regexString);
@@ -117,6 +137,9 @@ public class MainPanel extends JFrame {
         pnSouth.setPreferredSize(new Dimension(10, 10));
 
         setContentPane(externalPanel);
+        btnIgual.setBackground(Color.decode("#90553C"));
+        btnSeta.setBackground(Color.decode("#90553C"));
+        cButton.setBackground(Color.decode("#90553C"));
 
         btn0.addActionListener(new ActionListener() {
             @Override
@@ -232,6 +255,15 @@ public class MainPanel extends JFrame {
                             regexString = sRegex(listaNums1.toString());
                             verificacao = true;
                             operacao = null;
+                            break;
+                            case "%":
+                                resultado = resultado1Db * (resultado2Db/100);
+                                funcResultado(lbEspaco1, lbOperacao, lbEspaco2, lbResultado, resultado, listaNums1, listaNums2);
+                                listaNums1.add(String.valueOf(resultado));
+                                regexString = sRegex(listaNums1.toString());
+                                verificacao = true;
+                                operacao = null;
+                                break;
                     }
                 } catch (NullPointerException ex) {
                     throw new ExMainPanel(ex.getMessage());
@@ -291,6 +323,34 @@ public class MainPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 botaoOperacao(btnPorcentage);
+            }
+        });
+
+        btnPi.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addPi(String.valueOf(Math.PI));
+            }
+        });
+
+        btnPoint.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                botoes(btnPoint);
+            }
+        });
+        btnSeta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               if(listaNums2.isEmpty()) {
+                   listaNums1.removeLast();
+                   regexString = sRegex(listaNums1.toString());
+                   lbEspaco1.setText(regexString);
+               }else{
+                   listaNums2.removeLast();
+                   regexString = sRegex(listaNums2.toString());
+                   lbEspaco2.setText(regexString);
+               }
             }
         });
     }
